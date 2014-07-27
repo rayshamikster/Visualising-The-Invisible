@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+	<minRange value="0" />
+	<maxRange value="500" />
+	<minSize value="0" />
+	<maxSize value="768" />
+	<easing value="0.4" />
+	<calibration value="45" />
+	<rotateIncrement value="0" />
+</config>
