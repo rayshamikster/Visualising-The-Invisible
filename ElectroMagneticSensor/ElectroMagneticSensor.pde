@@ -169,7 +169,7 @@ void loadConfigSettings() {
     println(xml);
   }
   catch(NullPointerException e) {
-    minRange = 100;
+    minRange = 10;
     maxRange = 1000;
     minSize = 1;
     maxSize = 100;
