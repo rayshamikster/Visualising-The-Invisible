@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import java.io.File;
 
 ControlP5 cp5;
+RadioButton r;
 KetaiSensor sensor;
 KetaiGesture gesture;
 
@@ -19,11 +20,15 @@ float rotation;
 int speed;
 String configFilename;
 int displayMode;
+int hueStart = 90;
+int hueEnd = 0;
+int saturation = 255;
+int brightness = 255;
 
 void setup() {
   orientation(LANDSCAPE);
   frameRate(30);
-  colorMode(HSB);
+  colorMode(HSB,360,255,255);
 
   displayMode = 0;
   currentSize = 0;
@@ -38,17 +43,36 @@ void setup() {
   int w = int(width * 0.4);
   int h = 50;
 
-  println("I'm settin minRange to " + minRange);
+//  println("I'm settin minRange to " + minRange);
 
   cp5 = new ControlP5(this);
-  cp5.addSlider("minRange").setPosition(0, 0).setRange(0, 2000).setValue(minRange).setWidth(w).setHeight(h);
-  cp5.addSlider("maxRange").setPosition(0, h*1).setRange(0, 2000).setValue(maxRange).setWidth(w).setHeight(h);
-  cp5.addSlider("minSize").setPosition(0, h*2).setRange(0, height).setValue(minSize).setWidth(w).setHeight(h);
-  cp5.addSlider("maxSize").setPosition(0, h*3).setRange(0, height).setValue(maxSize).setWidth(w).setHeight(h);
-  cp5.addSlider("easing").setPosition(0, h*4).setRange(0.001, 0.999).setValue(easing).setWidth(w).setHeight(h);
-  cp5.addSlider("calibration").setPosition(0, h*5).setRange(0, 100).setValue(calibration).setWidth(w).setHeight(h);
-  cp5.addSlider("speed").setPosition(0, h*6).setRange(0.1, 30).setValue(speed).setWidth(w).setHeight(h);
-
+  cp5.addSlider("minRange").setPosition(10, 10).setRange(0, 2000).setValue(minRange).setWidth(w).setHeight(h);
+  cp5.addSlider("maxRange").setPosition(10, h*1+10).setRange(0, 2000).setValue(maxRange).setWidth(w).setHeight(h);
+  cp5.addSlider("minSize").setPosition(10, h*2+10).setRange(0, height).setValue(minSize).setWidth(w).setHeight(h);
+  cp5.addSlider("maxSize").setPosition(10, h*3+10).setRange(0, height).setValue(maxSize).setWidth(w).setHeight(h);
+  cp5.addSlider("easing").setPosition(10, h*4+10).setRange(0.001, 0.999).setValue(easing).setWidth(w).setHeight(h);
+  cp5.addSlider("calibration").setPosition(10, h*5+10).setRange(0, 100).setValue(calibration).setWidth(w).setHeight(h);
+  cp5.addSlider("speed").setPosition(10, h*6+10).setRange(0.1, 30).setValue(speed).setWidth(w).setHeight(h);
+  
+  r = cp5.addRadioButton("colors")
+         .setPosition(width*0.5,h*6+10)
+         .setSize(50,50)
+         .setColorForeground(color(120))
+         .setColorActive(color(255))
+         .setColorLabel(color(255))
+         .setItemsPerRow(5)
+         .setSpacingColumn(50)
+         .addItem("W",1)
+         .addItem("C1",2)
+         .addItem("C2",3)
+         .addItem("C3",4)
+         ;
+  int i=0;      
+  for(Toggle t:r.getItems()) {
+         t.setImages(loadImage("col"+i+"-off.png"),loadImage("col"+i+"-off.png"),loadImage("col"+i+"-on.png"));
+         i++;
+       }
+         
   magnitude = new PVector(0, 0, 0);
 
   gesture = new KetaiGesture(this);
@@ -67,7 +91,7 @@ void draw() {
 
   currentSize += (targetSize - currentSize)  * easing;
   currentSize = constrain(currentSize, minSize, maxSize-12);
-  color col = color(map(currentSize, minSize, maxSize, 90, 0), 255, 255);
+  color col = color(map(currentSize, minSize, maxSize, hueStart,hueEnd), saturation, brightness);
 
   switch(displayMode) {
     
@@ -95,9 +119,9 @@ void draw() {
   if (cp5.isVisible()) {
     fill(255, 255);
     text("magnetism: \n" + 
-      "x: " + nfp(magnitude.x, 1, 3) + "\n" +
-      "y: " + nfp(magnitude.y, 1, 3) + "\n" +
-      "z: " + nfp(magnitude.z, 1, 3) + "\n" +
+//      "x: " + nfp(magnitude.x, 1, 3) + "\n" +
+//      "y: " + nfp(magnitude.y, 1, 3) + "\n" +
+//      "z: " + nfp(magnitude.z, 1, 3) + "\n" +
       "magnitude: " + (magnitude.mag() - calibration) + "\n" + 
       "currentSize: " + currentSize, 0, 0, width, height);
   }
@@ -121,7 +145,7 @@ void onDoubleTap(float x, float y) {
   }
 }
 
-void onFlick( float x, float y, float px, float py, float v) {
+void onLongPress( float x, float y) {
   displayMode = (displayMode + 1) % 2;
   println(displayMode);
 }
@@ -187,4 +211,33 @@ public boolean surfaceTouchEvent(MotionEvent event) {
   //forward event to class for processing
   return gesture.surfaceTouchEvent(event);
 }
+
+void colors(int a) {
+  switch(a){
+
+      case 1: hueStart = 0;
+              hueEnd = 0;
+              saturation = 0;
+              brightness = 255;
+              break; 
+              
+      case 2: hueStart = 90;
+              hueEnd = 0;
+              saturation = 255;
+              break;
+              
+      case 3: hueStart = 220;
+              hueEnd = 310;
+              saturation = 255;
+              break;  
+              
+      case 4: hueStart = 170;
+              hueEnd = 260;
+              saturation = 255;
+              break;
+     
+      default: break;
+  }
+}
+
 
