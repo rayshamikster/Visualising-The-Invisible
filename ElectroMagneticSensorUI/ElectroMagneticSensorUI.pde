@@ -61,7 +61,7 @@ void setup() {
      .activateEvent(true)
      .setLabel("sensor")
      .setColorBackground(color(110))
-     .setColorForeground(color(170))
+     .setColorForeground(color(110))
      .setColorActive(color(170))
      .setWidth(width/2)
      .setHeight(100)
@@ -72,7 +72,7 @@ void setup() {
   cp5.getTab("drawing")
      .activateEvent(true)
      .setColorBackground(color(110))
-     .setColorForeground(color(170))
+     .setColorForeground(color(110))
      .setColorActive(color(170))
      .setId(2)
      ;
