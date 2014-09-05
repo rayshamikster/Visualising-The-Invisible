@@ -26,7 +26,7 @@ int saturation = 255;
 int brightness = 255;
 
 void setup() {
-  orientation(LANDSCAPE);
+  orientation(POTRAIT);
   frameRate(30);
   colorMode(HSB,360,255,255);
 
@@ -43,20 +43,18 @@ void setup() {
   int w = int(width * 0.4);
   int h = 50;
 
-//  println("I'm settin minRange to " + minRange);
-
   cp5 = new ControlP5(this);
-  cp5.addSlider("minRange").setPosition(10, 10).setRange(0, 2000).setValue(minRange).setWidth(w).setHeight(h);
-  cp5.addSlider("maxRange").setPosition(10, h*1+10).setRange(0, 2000).setValue(maxRange).setWidth(w).setHeight(h);
-  cp5.addSlider("minSize").setPosition(10, h*2+10).setRange(0, height).setValue(minSize).setWidth(w).setHeight(h);
-  cp5.addSlider("maxSize").setPosition(10, h*3+10).setRange(0, height).setValue(maxSize).setWidth(w).setHeight(h);
-  cp5.addSlider("easing").setPosition(10, h*4+10).setRange(0.001, 0.999).setValue(easing).setWidth(w).setHeight(h);
-  cp5.addSlider("calibration").setPosition(10, h*5+10).setRange(0, 100).setValue(calibration).setWidth(w).setHeight(h);
-  cp5.addSlider("speed").setPosition(10, h*6+10).setRange(0.1, 30).setValue(speed).setWidth(w).setHeight(h);
+  cp5.addSlider("minRange").setPosition(10, 0).setRange(0, 2000).setValue(minRange).setWidth(w).setHeight(h);
+  cp5.addSlider("maxRange").setPosition(10, 1*(h+10)).setRange(0, 2000).setValue(maxRange).setWidth(w).setHeight(h);
+  cp5.addSlider("minSize").setPosition(10, 2*(h+10)).setRange(0, height).setValue(minSize).setWidth(w).setHeight(h);
+  cp5.addSlider("maxSize").setPosition(10, 3*(h+10)).setRange(0, height).setValue(maxSize).setWidth(w).setHeight(h);
+  cp5.addSlider("easing").setPosition(10, 4*(h+10)).setRange(0.001, 0.999).setValue(easing).setWidth(w).setHeight(h);
+  cp5.addSlider("calibration").setPosition(10, 5*(h+10)).setRange(0, 100).setValue(calibration).setWidth(w).setHeight(h);
+  cp5.addSlider("speed").setPosition(10, 6*(h+10)).setRange(0.1, 30).setValue(speed).setWidth(w).setHeight(h);
   
   r = cp5.addRadioButton("colors")
-         .setPosition(width*0.5,h*6+10)
-         .setSize(50,50)
+         .setPosition(width*0.5,6*(h+10))
+         .setSize(50,50) 
          .setColorForeground(color(120))
          .setColorActive(color(255))
          .setColorLabel(color(255))
@@ -67,7 +65,8 @@ void setup() {
          .addItem("C2",3)
          .addItem("C3",4)
          ;
-  int i=0;      
+  int i=0; 
+  //Set the backgrounds for the gradient picker radio buttons  
   for(Toggle t:r.getItems()) {
          t.setImages(loadImage("col"+i+"-off.png"),loadImage("col"+i+"-off.png"),loadImage("col"+i+"-on.png"));
          i++;
