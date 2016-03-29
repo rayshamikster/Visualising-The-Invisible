@@ -5,5 +5,5 @@ Digital tools and probes to accompany a series of projects and workshops that re
 ## Android / Processing
 The source code for the Android mobile app, written using Processing.
 
-## iOs / openFrameworks
+## iOS / openFrameworks
 The source code for the iOS mobile app, written using openFrameworks.
